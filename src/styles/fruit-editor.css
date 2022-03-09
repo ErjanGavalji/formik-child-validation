@@ -1,3 +1,5 @@
 .fruit-editor-main {
   max-width: 30rem;
+  border: solid 1px grey;
+  margin: 3px 0px 3px 2px;
 }

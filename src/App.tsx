@@ -1,14 +1,11 @@
-import { useFormik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import Form from "react-bootstrap/Form";
+import * as yup from "yup";
+import { Fruit } from "./models/fruit";
 import Button from "react-bootstrap/Button";
 import logo from "./logo.svg";
 import "./App.css";
 import FruitEditor from "./components/fruit-editor";
-
-interface Fruit {
-  name: string;
-  color: string;
-}
 
 interface Basket {
   contents: Fruit[];
@@ -35,12 +32,17 @@ function App() {
     ],
   };
 
-  function handleFormSubmit(values: Cart, errors: any) {}
+  function handleFormikFormSubmit(values: Cart, { setErrors, setSubmitting }: FormikHelpers<Cart>) {
+    console.log(`Values: ${values.singleFruits.length}`)
+    setSubmitting(false);
+    //    return false;
+  }
 
-  const formik = useFormik<Cart>({
-    initialValues: cart,
-    onSubmit: handleFormSubmit,
-  });
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log('Stopped form submit propagation');
+  }
 
   return (
     <div className="App">
@@ -50,13 +52,17 @@ function App() {
         </a>
       </header>
       <div>
-        <Form noValidate>
+        <Formik initialValues={cart} validationSchema={yup.object({
+          singleFruits: yup.array()
+        })} onSubmit={handleFormikFormSubmit}>{({handleSubmit }) => (
+        <Form noValidate onSubmit={handleSubmit} >
           {cart.singleFruits.map((f) => (
-            <FruitEditor name={f.name} color={f.color} />
+            <FruitEditor key={`editor-${f.name}`} nameBase={f.name} initial={f} />
           ))}
 
-          <Button>Submit</Button>
-        </Form>
+          <Button type="submit">Submit</Button>
+        </Form>)}
+</Formik>
       </div>
     </div>
   );
