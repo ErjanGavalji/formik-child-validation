@@ -32,6 +32,14 @@ function App() {
     ],
   };
 
+  const fruitSchema = yup.object({
+    name: yup.string().required("Fruit Name is required"),
+    color: yup.string().required("Fruit color is required"),
+  });
+  const validationSchema=yup.object({
+          singleFruits: yup.array().min(1).of(fruitSchema)
+        });
+
   function handleFormikFormSubmit(values: Cart, { setErrors, setSubmitting }: FormikHelpers<Cart>) {
     //console.log(`Values: ${values.singleFruits.length}`)
     //    setSubmitting(false);
@@ -52,17 +60,26 @@ function App() {
         </a>
       </header>
       <div>
-        <Formik initialValues={cart} validationSchema={yup.object({
-          singleFruits: yup.array()
-        })} onSubmit={handleFormikFormSubmit}>{({handleSubmit }) => (
-        <Form noValidate onSubmit={handleSubmit} >
-          {cart.singleFruits.map((f, idx) => (
-            <FruitEditor key={`editor-${f.name}`} nameBase={f.name} formikObjectIdentifier={`singleFruits[${idx}]`} initial={f} />
-          ))}
+        <Formik
+          initialValues={cart}
+          validationSchema={validationSchema}
+          onSubmit={handleFormikFormSubmit}
+        >
+          {({ handleSubmit }) => (
+            <Form noValidate onSubmit={handleSubmit}>
+              {cart.singleFruits.map((f, idx) => (
+                <FruitEditor
+                  key={`editor-${f.name}`}
+                  nameBase={f.name}
+                  formikObjectIdentifier={`singleFruits[${idx}]`}
+                  initial={f}
+                />
+              ))}
 
-          <Button type="submit">Submit</Button>
-        </Form>)}
-</Formik>
+              <Button type="submit">Submit</Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

@@ -20,34 +20,59 @@ export default function FruitEditor({
     name: colorFieldName,
   });
   return (
-      <Card className="fruit-editor-main">
-        <Card.Header>
-          An editor for a {initial.color} {initial.name}
-        </Card.Header>
-        <Card.Body>
-          <Form.Group controlId={nameFieldName}>
-            <Form.Label>Name</Form.Label>
-            { /* {nameMeta.error && nameMeta.error !== ""} */ }
-            <Form.Control name={`${formikObjectIdentifier}.name`} value={nameField.value} onChange={nameField.onChange} />
-            <Form.Control.Feedback type="invalid">
-              {validationResult}
-            </Form.Control.Feedback>
-            <Form.Text className="muted" {...nameField}>
-              The name of the {initial.name} fruit
-            </Form.Text>
-          </Form.Group>
+    <Card className="fruit-editor-main">
+      <Card.Header>
+        An editor for a {initial.color} {initial.name}
+      </Card.Header>
+      <Card.Body>
+        <Form.Group controlId={nameFieldName}>
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            name={`${formikObjectIdentifier}.name`}
+            value={nameField.value}
+            onChange={nameField.onChange}
+            isValid={
+              nameMeta.touched &&
+              (nameMeta.error === undefined || nameMeta.error === "")
+            }
+            isInvalid={
+              nameMeta.touched &&
+              nameMeta.error !== undefined &&
+              nameMeta.error !== ""
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            {nameMeta.error}
+          </Form.Control.Feedback>
+          <Form.Text className="muted" {...nameField}>
+            The name of the {initial.name} fruit
+          </Form.Text>
+        </Form.Group>
 
-          <Form.Group controlId={colorFieldName}>
-            <Form.Label>Color</Form.Label>
-            <Form.Control name={colorFieldName} value={colorField.value} onChange={colorField.onChange} />
-            <Form.Control.Feedback type="invalid">
-              {validationResult}
-            </Form.Control.Feedback>
-            <Form.Text className="muted">
-              The color of the {initial.name} fruit
-            </Form.Text>
-          </Form.Group>
-        </Card.Body>
-      </Card>
+        <Form.Group controlId={colorFieldName}>
+          <Form.Label>Color</Form.Label>
+          <Form.Control
+            name={colorFieldName}
+            value={colorField.value}
+            onChange={colorField.onChange}
+            isValid={
+              colorMeta.touched &&
+              (colorMeta.error === undefined || colorMeta.error === "")
+            }
+            isInvalid={
+              colorMeta.touched &&
+              colorMeta.error !== undefined &&
+              colorMeta.error !== ""
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            {colorMeta.error}
+          </Form.Control.Feedback>
+          <Form.Text className="muted">
+            The color of the {initial.name} fruit
+          </Form.Text>
+        </Form.Group>
+      </Card.Body>
+    </Card>
   );
 }
