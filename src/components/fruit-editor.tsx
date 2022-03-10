@@ -1,24 +1,25 @@
 import { useField } from "formik";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import {Fruit} from "../models/fruit";
+import {Fruit, FruitVariety} from "../models/fruit";
 import "../styles/fruit-editor.css";
 export default function FruitEditor({
   initial,
-  nameBase,
-  formikObjectIdentifier,
+  nameBase
 }: {
   initial: Fruit;
   nameBase: string;
-  formikObjectIdentifier: string;
 }) {
-  const validationResult = "This should come from formik";
-  const nameFieldName = `${formikObjectIdentifier}.name`;
-  const colorFieldName = `${formikObjectIdentifier}.color`;
+  const nameFieldName = `${nameBase}.name`;
+  const colorFieldName = `${nameBase}.color`;
+  const varietyFieldName = `${nameBase}.availableVarieties`;
   const [nameField, nameMeta, nameHelpers] = useField({ name: nameFieldName});
   const [colorField, colorMeta, colorHelpers] = useField({
     name: colorFieldName,
   });
+  const [varietyField, varietyMeta, varietyHelpers] = useField({
+    name: varietyFieldName
+  })
   return (
     <Card className="fruit-editor-main">
       <Card.Header>
@@ -28,7 +29,7 @@ export default function FruitEditor({
         <Form.Group controlId={nameFieldName}>
           <Form.Label>Name</Form.Label>
           <Form.Control
-            name={`${formikObjectIdentifier}.name`}
+            name={`${nameBase}.name`}
             value={nameField.value}
             onChange={nameField.onChange}
             isValid={
@@ -72,6 +73,18 @@ export default function FruitEditor({
             The color of the {initial.name} fruit
           </Form.Text>
         </Form.Group>
+        <div className="variety-holder">
+          Varieties:
+          { varietyField.value.map((v:any) => <div>{v}</div>) }
+          <div>{varietyMeta.error}</div>
+          {/*Object.keys(FruitVariety).map(k => (
+            <>{k}</>
+        ))*/}
+        {/*Object.values(FruitVariety).map(k => (
+            <>{k}</>
+        ))*/}
+        
+        </div>
       </Card.Body>
     </Card>
   );

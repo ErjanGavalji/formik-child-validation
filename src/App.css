@@ -4,3 +4,7 @@
 .App-logo {
   max-height: 60px;
 }
+
+.variety-holder {
+  border: solid 2px #ccc;
+}
