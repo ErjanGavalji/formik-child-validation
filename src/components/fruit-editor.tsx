@@ -13,10 +13,12 @@ export default function FruitEditor({
   formikObjectIdentifier: string;
 }) {
   const validationResult = "This should come from formik";
-  const nameFieldName = `${nameBase}-name`;
-  const colorFieldName = `${nameBase}-color`;
-  const [nameField, nameMeta, nameHelpers] = useField({ name: `${formikObjectIdentifier}.name`});
-  const [colorField, colorMeta, colorHelpers] = useField({ name: `${formikObjectIdentifier}.color`});
+  const nameFieldName = `${formikObjectIdentifier}.name`;
+  const colorFieldName = `${formikObjectIdentifier}.color`;
+  const [nameField, nameMeta, nameHelpers] = useField({ name: nameFieldName});
+  const [colorField, colorMeta, colorHelpers] = useField({
+    name: colorFieldName,
+  });
   return (
       <Card className="fruit-editor-main">
         <Card.Header>
@@ -26,7 +28,7 @@ export default function FruitEditor({
           <Form.Group controlId={nameFieldName}>
             <Form.Label>Name</Form.Label>
             { /* {nameMeta.error && nameMeta.error !== ""} */ }
-            <Form.Control name={nameFieldName} value={nameField.value} onChange={nameField.onChange} />
+            <Form.Control name={`${formikObjectIdentifier}.name`} value={nameField.value} onChange={nameField.onChange} />
             <Form.Control.Feedback type="invalid">
               {validationResult}
             </Form.Control.Feedback>

@@ -33,15 +33,15 @@ function App() {
   };
 
   function handleFormikFormSubmit(values: Cart, { setErrors, setSubmitting }: FormikHelpers<Cart>) {
-    console.log(`Values: ${values.singleFruits.length}`)
+    //console.log(`Values: ${values.singleFruits.length}`)
     //    setSubmitting(false);
     //    return false;
   }
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.stopPropagation();
-    e.preventDefault();
-    console.log('Stopped form submit propagation');
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    //     console.log('Stopped form submit propagation');
   }
 
   return (
