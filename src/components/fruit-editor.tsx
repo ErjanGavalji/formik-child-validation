@@ -6,15 +6,17 @@ import "../styles/fruit-editor.css";
 export default function FruitEditor({
   initial,
   nameBase,
+  formikObjectIdentifier,
 }: {
   initial: Fruit;
   nameBase: string;
+  formikObjectIdentifier: string;
 }) {
   const validationResult = "This should come from formik";
   const nameFieldName = `${nameBase}-name`;
   const colorFieldName = `${nameBase}-color`;
-  const [nameField, nameMeta, nameHelpers] = useField({ name: nameFieldName });
-  const [colorField, colorMeta, colorHelpers] = useField({ name: colorFieldName });
+  const [nameField, nameMeta, nameHelpers] = useField({ name: `${formikObjectIdentifier}.name`});
+  const [colorField, colorMeta, colorHelpers] = useField({ name: `${formikObjectIdentifier}.color`});
   return (
       <Card className="fruit-editor-main">
         <Card.Header>
@@ -23,7 +25,8 @@ export default function FruitEditor({
         <Card.Body>
           <Form.Group controlId={nameFieldName}>
             <Form.Label>Name</Form.Label>
-            <Form.Control name={nameFieldName} />
+            { /* {nameMeta.error && nameMeta.error !== ""} */ }
+            <Form.Control name={nameFieldName} value={nameField.value} onChange={nameField.onChange} />
             <Form.Control.Feedback type="invalid">
               {validationResult}
             </Form.Control.Feedback>
@@ -34,8 +37,8 @@ export default function FruitEditor({
 
           <Form.Group controlId={colorFieldName}>
             <Form.Label>Color</Form.Label>
-            <Form.Control name={colorFieldName} />
-            <Form.Control.Feedback type="invalid" {...colorField}>
+            <Form.Control name={colorFieldName} value={colorField.value} onChange={colorField.onChange} />
+            <Form.Control.Feedback type="invalid">
               {validationResult}
             </Form.Control.Feedback>
             <Form.Text className="muted">

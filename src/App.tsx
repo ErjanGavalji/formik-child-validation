@@ -34,7 +34,7 @@ function App() {
 
   function handleFormikFormSubmit(values: Cart, { setErrors, setSubmitting }: FormikHelpers<Cart>) {
     console.log(`Values: ${values.singleFruits.length}`)
-    setSubmitting(false);
+    //    setSubmitting(false);
     //    return false;
   }
 
@@ -56,8 +56,8 @@ function App() {
           singleFruits: yup.array()
         })} onSubmit={handleFormikFormSubmit}>{({handleSubmit }) => (
         <Form noValidate onSubmit={handleSubmit} >
-          {cart.singleFruits.map((f) => (
-            <FruitEditor key={`editor-${f.name}`} nameBase={f.name} initial={f} />
+          {cart.singleFruits.map((f, idx) => (
+            <FruitEditor key={`editor-${f.name}`} nameBase={f.name} formikObjectIdentifier={`singleFruits[${idx}]`} initial={f} />
           ))}
 
           <Button type="submit">Submit</Button>
